@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Checkout from './Checkout';
@@ -15,7 +15,7 @@ const Cart = ({ cart, handleCheckout, total }) => {
       const updatedRemovedCart = [...newCart];
 
       // Check if the quantity is greater than 0 before decreasing it
-      if (updatedRemovedCart[productIndex].quantity > 0) {
+      if (updatedRemovedCart[productIndex].quantity >= 1) {
         updatedRemovedCart[productIndex] = {
           ...updatedRemovedCart[productIndex],
           quantity: updatedRemovedCart[productIndex].quantity - 1,
@@ -23,11 +23,22 @@ const Cart = ({ cart, handleCheckout, total }) => {
 
         setNewCart(updatedRemovedCart);
         setNewTotal(newTotal - 1);
+
+      } else if (updatedRemovedCart[productIndex].quantity <1 ) {
+        const newestCart = newCart.filter((item)=>item.id !== product.id)
+        setNewCart(newestCart)
       }
+      return {setNewCart, setNewTotal}
     }
   };
 
-
+useEffect(()=> {
+  const findZeroItem=cart.find((item)=> item.quantity<1)
+  //findZeroItem is an object
+  if(findZeroItem){
+  const updatedCart =newCart.filter((items)=> items.id!==findZeroItem.id);
+  setNewCart(updatedCart)
+}}, [setNewCart, newCart, newTotal])
 
 
 
@@ -44,7 +55,7 @@ const Cart = ({ cart, handleCheckout, total }) => {
       <h2>Your Cart</h2>
       <ul>
         {newCart.map((item) => (
-          <Card className='d-flex justify-content-center align-items-center' key={item.id}>
+          item.quantity>=1?<Card className='d-flex justify-content-center align-items-center' key={item.id}>
             <img className='col-md-4' src={item.src}></img>
             {item.name} - {item.quantity} - ${item.price}
 
@@ -55,7 +66,7 @@ const Cart = ({ cart, handleCheckout, total }) => {
             >
               Remove
             </Button>
-          </Card>
+          </Card>:null
         ))}
       </ul>
       <span>
