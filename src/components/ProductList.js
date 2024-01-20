@@ -30,7 +30,7 @@ const ProductList = ({ addToCart, removeProducts, removeAllProducts}) => {
   return (
     <Container>
       <h2 className='text-center'>Product List</h2>
-      <ul style={{ backgroundColor: 'rgba(176, 235, 13, 0.2)' }} className='list-unstyled d-flex flex-wrap justify-content-center align-items-center py-3 gap-3 border border-info mx-2'>
+      <ul style={{ backgroundColor: 'rgba(203, 190, 181, 0.5)' }} className='list-unstyled d-flex flex-wrap justify-content-center align-items-center py-3 gap-3 border border-light mx-2 rounded'>
         {products.map((product) => (
           <Card
             onMouseEnter={handleMouseEnter}

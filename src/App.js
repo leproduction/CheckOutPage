@@ -68,16 +68,16 @@ const removeAllProducts = (product) => {setCart([])
   };
 
   return (
-    <Container sm={1} fluid style={{ backgroundColor: 'rgba(176, 235, 13, 0.2)' }} className="App p-0 vw-100 vh-100 shadow my-1 mx-1">
-      <Row style={{ backgroundColor: 'rgba(176, 235, 13, 0.5)' }} className="m-0 shadow my-1">
+    <Container sm={1} fluid style={{ backgroundColor: 'rgba(203, 190, 181, 0.4)' }} className="App p-0 vw-100 vh-300 shadow my-1 mx-1">
+      <Row style={{ backgroundColor: 'rgba(203, 190, 181, 0.1)' }} className="m-0 shadow my-1">
         <Col md={12} lg={6} className="p-0 vw-100">
-          <Navbar sm={1} md={2} className=" p-1 d-flex align-items-center justify-content-center rounded">
+          <Navbar sm={1} md={2} style={{ backgroundColor: 'rgba(203, 190, 181, 0.5)' }} className=" p-1 d-flex align-items-center justify-content-center rounded">
             <Col className="text-center">
               <h1>Miami Shopping Store</h1>
               <h2>Shopping is exciting</h2>
             </Col>
             <Col align="center" className="p-0 rounded col-sm-1 mx-0">
-              <Button style={{ backgroundColor: 'rgba(176, 235, 13, 0.5)' }} onClick={handleCartOpen} className='shadow text-dark'>
+              <Button style={{ backgroundColor: 'rgba(203, 190, 181, 0.5)' }} onClick={handleCartOpen} className='shadow text-dark'>
                 Cart ({total})
               </Button>
               <Modal show={showCart} onHide={handleCartClose}>
