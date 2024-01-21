@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Checkout from './Checkout';
-const Cart = ({ cart, handleCheckout, total }) => {
+import stripePromise from '../stripe';
+
+const Cart = ({ cart, total }) => {
   const [newCart, setNewCart] = useState(cart);
   const [newTotal, setNewTotal] = useState(total);
 
@@ -23,57 +24,79 @@ const Cart = ({ cart, handleCheckout, total }) => {
 
         setNewCart(updatedRemovedCart);
         setNewTotal(newTotal - 1);
-
-      } else if (updatedRemovedCart[productIndex].quantity <1 ) {
-        const newestCart = newCart.filter((item)=>item.id !== product.id)
-        setNewCart(newestCart)
+      } else if (updatedRemovedCart[productIndex].quantity < 1) {
+        const newestCart = newCart.filter((item) => item.id !== product.id);
+        setNewCart(newestCart);
       }
-      return {setNewCart, setNewTotal}
     }
   };
 
-useEffect(()=> {
-  const findZeroItem=cart.find((item)=> item.quantity<1)
-  //findZeroItem is an object
-  if(findZeroItem){
-  const updatedCart =newCart.filter((items)=> items.id!==findZeroItem.id);
-  setNewCart(updatedCart)
-}}, [setNewCart, newCart, newTotal])
-
-
-
+  useEffect(() => {
+    const findZeroItem = cart.find((item) => item.quantity < 1);
+    // findZeroItem is an object
+    if (findZeroItem) {
+      const updatedCart = newCart.filter((items) => items.id !== findZeroItem.id);
+      setNewCart(updatedCart);
+    }
+  }, [setNewCart, newCart, newTotal]);
 
   const handleRemoveAll = () => {
     setNewCart([]);
     setNewTotal(0);
   };
 
+  const handleCheckout = async () => {
+    const stripe = await stripePromise;
 
+    if (!newCart) {
+      console.error('newCart is undefined or null.');
+      return;
+    }
+
+    console.log('newCart:', newCart);
+
+    const { error } = await stripe.redirectToCheckout({
+      lineItems: newCart.map((item) => {
+        console.log('Item:', item);
+        return { price: item.id, quantity: item.quantity };
+      }),
+      mode: 'payment',
+      successUrl: `${window.location.origin}/success`,
+      cancelUrl: `${window.location.origin}/cancel`,
+    });
+
+    if (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
       <h2>Your Cart</h2>
       <ul>
         {newCart.map((item) => (
-          item.quantity>=1?<Card className='d-flex justify-content-center align-items-center' key={item.id}>
-            <img className='col-md-4' src={item.src}></img>
-            {item.name} - {item.quantity} - ${item.price}
-
-
-            <Button
-              className='bg-dark'
-              onClick={() => handleRemoveItems(item)}
-            >
-              Remove
-            </Button>
-          </Card>:undefined
+          item.quantity >= 1 ? (
+            <Card className='d-flex justify-content-center align-items-center' key={item.id}>
+              <img className='col-md-4' src={item.src} alt={item.name}></img>
+              {item.name} - {item.quantity} - ${item.price}
+              <Button
+                className='bg-dark'
+                onClick={() => handleRemoveItems(item)}
+              >
+                Remove
+              </Button>
+            </Card>
+          ) : null
         ))}
       </ul>
       <span>
         <p>{newTotal <= 1 ? "Item" : "Items"}</p>
         <p>{newTotal}</p>
       </span>
-      <Checkout handleCheckout cart={newCart}/>
+      <div>
+        <h2>Checkout</h2>
+        <button onClick={handleCheckout}>Proceed to Checkout</button>
+      </div>
       <Button onClick={handleRemoveAll}>Remove All</Button>
     </div>
   );

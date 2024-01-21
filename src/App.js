@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
-import Checkout from './components/Checkout';
 import stripePromise from './stripe';
+
 import { Navbar, Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -14,32 +13,24 @@ function App() {
   const [total, setTotal] = useState(0);
 
   const addToCart = (product) => {
-    // Check if the product is already in the cart based on its id
     const productIndex = cart.findIndex((item) => item.id === product.id);
 
     if (productIndex === -1) {
-      // If the product is not in the cart, add it to the cart and update the total
       setCart([...cart, { ...product, quantity: 1 }]);
       setTotal(total + 1);
     } else {
-      // If the product is already in the cart, update the quantity and total
       const updatedCart = [...cart];
-      //find id throught product index. updatedCart[productIndex]= updatedCart.id
       updatedCart[productIndex] = { ...cart[productIndex], quantity: cart[productIndex].quantity + 1 };
-
       setCart(updatedCart);
       setTotal(total + 1);
     }
   };
 
-
-
-  const removeProducts = (productId) => {
+  const removeProduct = (productId) => {
     const removedProductIndex = cart.findIndex((item) => item.id === productId.id);
 
     if (removedProductIndex !== -1) {
       const updatedRemovedCart = [...cart];
-      // Decrease quantity by 1 if it's greater than 0
       if (updatedRemovedCart[removedProductIndex].quantity > 0) {
         updatedRemovedCart[removedProductIndex] = {
           ...updatedRemovedCart[removedProductIndex],
@@ -51,9 +42,11 @@ function App() {
     }
   };
 
-const removeAllProducts = (product) => {setCart([])
-  setTotal(0)
-}
+  const removeAllProducts = () => {
+    setCart([]);
+    setTotal(0);
+  };
+
   const handleCheckout = () => {
     // Handle the checkout logic here, e.g., update order status, charge the user, etc.
     setCart([]);
@@ -85,10 +78,8 @@ const removeAllProducts = (product) => {setCart([])
                   <Modal.Title>Shopping Cart</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <Cart cart={cart} total={total} checkout={handleCheckout} />
                   <Elements stripe={stripePromise}>
-
-                    <Checkout stripePromise={stripePromise} cart={cart} />
+                    <Cart cart={cart} stripePromise={stripePromise} total={total} />
                   </Elements>
                 </Modal.Body>
               </Modal>
@@ -97,8 +88,7 @@ const removeAllProducts = (product) => {setCart([])
         </Col>
       </Row>
       <Row>
-        {/* Pass the addToCart function correctly */}
-        <ProductList removeAllProducts={removeAllProducts} removeProducts={removeProducts} addToCart={addToCart} />
+        <ProductList removeAllProducts={removeAllProducts} removeProduct={removeProduct} addToCart={addToCart} />
       </Row>
     </Container>
   );
