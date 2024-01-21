@@ -71,7 +71,7 @@ const Cart = ({ cart, total }) => {
   };
 
   return (
-    <div>
+    <div className='align-items-center'>
       <h2>Your Cart</h2>
       <ul>
         {newCart.map((item) => (
@@ -93,9 +93,9 @@ const Cart = ({ cart, total }) => {
         <p>{newTotal <= 1 ? "Item" : "Items"}</p>
         <p>{newTotal}</p>
       </span>
-      <div>
-        <h2>Checkout</h2>
-        <button onClick={handleCheckout}>Proceed to Checkout</button>
+      <div className='d-block justify-content-center align-items-center'>
+        <h2 className='mx-auto'>Checkout</h2>
+        <button className='mx-auto' onClick={handleCheckout}>Proceed to Checkout</button>
       </div>
       <Button onClick={handleRemoveAll}>Remove All</Button>
     </div>

@@ -40,17 +40,18 @@ const ProductList = ({ addToCart, removeProducts, removeAllProducts}) => {
           >
             <img src={product.src} alt={product.name} className='rounded my-1 img-fluid'></img>
             <p className='mb-1'>{product.name} - ${product.price}</p>
-            <span>
+            <span className='d-flex justify-content-flex-start align-items-center'>
               <Button className={`${isHovered ? 'bg-info' : 'bg-dark'} rounded`} onClick={() => { addToCart(product) }}>
                 +
               </Button>
-              <Button className={`${isHovered ? 'bg-info' : 'bg-dark'} rounded`} onClick={() => { removeProducts(product) }}>
+              <Button className={`${isHovered ? 'bg-info' : 'bg-dark'} rounded `} onClick={() => { removeProducts(product) }}>
                 -
               </Button>
             </span>
-            <Button className={`${isHovered ? 'bg-info' : 'bg-dark'}  rounded`} onClick={() => { removeAllProducts(product) }}>
+           <span className='d-flex justify-content-flex-start align-items-center'> <Button className={`${isHovered ? 'bg-info' : 'bg-dark'}  rounded col-md-4 `} onClick={() => { removeAllProducts(product) }}>
               Remove All
             </Button>
+            </span>
           </Card>
         ))}
       </ul>

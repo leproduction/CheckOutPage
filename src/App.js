@@ -6,7 +6,7 @@ import stripePromise from './stripe';
 
 import { Navbar, Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import MiamiLogo from './miamiStore.png'
 function App() {
   const [showCart, setShowCart] = useState(false);
   const [cart, setCart] = useState([]);
@@ -47,10 +47,7 @@ function App() {
     setTotal(0);
   };
 
-  const handleCheckout = () => {
-    // Handle the checkout logic here, e.g., update order status, charge the user, etc.
-    setCart([]);
-  };
+
 
   const handleCartClose = () => {
     setShowCart(false);
@@ -65,9 +62,12 @@ function App() {
       <Row style={{ backgroundColor: 'rgba(203, 190, 181, 0.1)' }} className="m-0 shadow my-1">
         <Col md={12} lg={6} className="p-0 vw-100">
           <Navbar sm={1} md={2} style={{ backgroundColor: 'rgba(203, 190, 181, 0.5)' }} className=" p-1 d-flex align-items-center justify-content-center rounded">
-            <Col className="text-center">
-              <h1>Miami Shopping Store</h1>
-              <h2>Shopping is exciting</h2>
+          <Col className="d-flex justify-content-flex-start flexwrap-wrap">
+              <Row className=' rounded p-1 col-md-12'>
+               <img className='col-sm-1 img-fluid' src={MiamiLogo} alt="Logo"></img>
+                  <small><h2 className='fs-6 lh-sm font-monospace'>Shopping is exciting</h2></small>
+
+              </Row>
             </Col>
             <Col align="center" className="p-0 rounded col-sm-1 mx-0">
               <Button style={{ backgroundColor: 'rgba(203, 190, 181, 0.5)' }} onClick={handleCartOpen} className='shadow text-dark'>
@@ -75,7 +75,7 @@ function App() {
               </Button>
               <Modal show={showCart} onHide={handleCartClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Shopping Cart</Modal.Title>
+                 <small> <Modal.Title className='font-monospace fs-1 lh-md'>Shopping Cart</Modal.Title></small>
                 </Modal.Header>
                 <Modal.Body>
                   <Elements stripe={stripePromise}>
@@ -88,7 +88,7 @@ function App() {
         </Col>
       </Row>
       <Row>
-        <ProductList removeAllProducts={removeAllProducts} removeProduct={removeProduct} addToCart={addToCart} />
+        <ProductList removeAllProducts={removeAllProducts} removeProducts={removeProduct} addToCart={addToCart} />
       </Row>
     </Container>
   );
