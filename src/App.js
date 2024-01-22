@@ -3,10 +3,11 @@ import { Elements } from '@stripe/react-stripe-js';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import stripePromise from './stripe';
-
+import MyContext from './components/MyContext';
 import { Navbar, Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MiamiLogo from './miamiStore.png'
+
 function App() {
   const [showCart, setShowCart] = useState(false);
   const [cart, setCart] = useState([]);
@@ -58,6 +59,7 @@ function App() {
   };
 
   return (
+    <MyContext.Provider value={{cart, setCart, total, setTotal}}>
     <Container sm={1} fluid style={{ backgroundColor: 'rgba(203, 190, 181, 0.4)' }} className="App p-0 vw-100 vh-300 shadow my-1 mx-1">
       <Row style={{ backgroundColor: 'rgba(203, 190, 181, 0.1)' }} className="m-0 shadow my-1">
         <Col md={12} lg={6} className="p-0 vw-100">
@@ -91,6 +93,7 @@ function App() {
         <ProductList removeAllProducts={removeAllProducts} removeProducts={removeProduct} addToCart={addToCart} />
       </Row>
     </Container>
+    </MyContext.Provider>
   );
 }
 
