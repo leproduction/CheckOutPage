@@ -65,9 +65,9 @@ function App() {
         <Col md={12} lg={6} className="p-0 vw-100">
           <Navbar sm={1} md={2} style={{ backgroundColor: 'rgba(203, 190, 181, 0.5)' }} className=" p-1 d-flex align-items-center justify-content-center rounded">
           <Col className="d-flex justify-content-flex-start flexwrap-wrap">
-              <Row className=' rounded p-1 col-md-12'>
+              <Row className=' rounded p-1 col-md-12 mx-1'>
                <img className='col-sm-1 img-fluid' src={MiamiLogo} alt="Logo"></img>
-                  <small><h2 className='fs-6 lh-sm font-monospace'>Shopping is exciting</h2></small>
+              <small><h2 className='fs-6 lh-sm font-monospace '>Shopping is exciting</h2></small>
 
               </Row>
             </Col>
@@ -92,6 +92,11 @@ function App() {
       <Row>
         <ProductList removeAllProducts={removeAllProducts} removeProducts={removeProduct} addToCart={addToCart} />
       </Row>
+      <Row fluid style={{ backgroundColor: 'rgba(203, 190, 181, 0.4)' }} className='d-flex justify-content-center align-items-center align-content-center p-2'>
+  <p className='text-center'>Copyright © Hau Le - All Rights Reserved.</p>
+</Row>
+
+
     </Container>
     </MyContext.Provider>
   );
