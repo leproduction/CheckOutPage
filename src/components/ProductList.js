@@ -48,7 +48,7 @@ const ProductList = ({ addToCart, removeProducts, removeAllProducts}) => {
                 -
               </Button>
             </span>
-           <span className='d-flex justify-content-flex-start align-items-center'> <Button className={`${isHovered ? 'bg-info' : 'bg-dark'}  rounded col-md-4 `} onClick={() => { removeAllProducts(product) }}>
+           <span className='d-flex justify-content-flex-start align-items-center'> <Button className={`${isHovered ? 'bg-info' : 'bg-dark'}  rounded`} onClick={() => { removeAllProducts(product) }}>
               Remove All
             </Button>
             </span>
